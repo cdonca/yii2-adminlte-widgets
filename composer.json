@@ -1,0 +1,21 @@
+{
+    "name": "wokster/yii2-adminlte-widgets",
+    "description": "Adminlte widgets and helpers for yii2",
+    "type": "yii2-extension",
+    "keywords": ["yii2","extension","widgets","adminLTE"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Maksym Tymofeiev",
+            "email": "wokster@list.ru"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "~2.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "wokster\\ltewidgets\\": ""
+        }
+    }
+}
