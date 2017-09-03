@@ -8,28 +8,38 @@ use yii\bootstrap\Html;
  */
 class BoxWidget extends \yii\base\Widget
 {
-    public $content;
     public $title;
     public $border = false;
     public $color = 'default';
     public $solid = false;
     public $padding = true;
     public $footer = false;
-    public $buttons = [
-        ['button', '<i class="fa fa-minus"></i>', ['class'=>'btn btn-box-tool', 'data-widget'=>'collapse']],
-        /*['button', '<i class="fa fa-times"></i>', ['class'=>'btn btn-box-tool', 'data-widget'=>'remove']],*/
-    ];
+    public $collapse = true;
+    public $close = false;
+    public $buttons = [];
+
+    public function init()
+    {
+        parent::init();
+        if($this->collapse)
+            $this->buttons[] = ['button', '<i class="fa fa-minus"></i>', ['class'=>'btn btn-box-tool', 'data-widget'=>'collapse']];
+        if($this->close)
+            $this->buttons[] = ['button', '<i class="fa fa-times"></i>', ['class'=>'btn btn-box-tool', 'data-widget'=>'remove']];
+        ob_start();
+    }
 
     public function run()
     {
-        echo Html::beginTag('div',['class'=>$this->boxClass(), 'data-widget'=>'box-widget']);
-            echo Html::beginTag('div',['class'=>$this->boxHeaderClass()]);
-                echo (!empty($this->title))?Html::tag('h3',$this->title,['class'=>'box-title']):'';
-                echo Html::tag('div',$this->boxTools(),['class'=>'box-tools pull-right']);
-            echo Html::endTag('div');
-            echo Html::tag('div',$this->content,['class'=>'box-body']);
-            echo ($this->footer)?Html::tag('div',$this->footer,['class'=>'box-footer']):'';
-        echo Html::endTag('div');
+        $content = ob_get_clean();
+        $html_data = Html::beginTag('div',['class'=>$this->boxClass(), 'data-widget'=>'box-widget']);
+        $html_data .= Html::beginTag('div',['class'=>$this->boxHeaderClass()]);
+        $html_data .= (!empty($this->title))?Html::tag('h3',$this->title,['class'=>'box-title']):'';
+        $html_data .= Html::tag('div',$this->boxTools(),['class'=>'box-tools pull-right']);
+        $html_data .= Html::endTag('div');
+        $html_data .= Html::tag('div',$content,['class'=>'box-body']);
+        $html_data .= ($this->footer)?Html::tag('div',$this->footer,['class'=>'box-footer']):'';
+        $html_data .= Html::endTag('div');
+        return $html_data;
     }
 
     private function boxClass(){
