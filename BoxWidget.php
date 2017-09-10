@@ -15,6 +15,7 @@ class BoxWidget extends \yii\base\Widget
     public $padding = true;
     public $footer = false;
     public $collapse = true;
+    public $hide = false;
     public $close = false;
     public $buttons = [];
 
@@ -22,9 +23,9 @@ class BoxWidget extends \yii\base\Widget
     {
         parent::init();
         if($this->collapse)
-            $this->buttons[] = ['button', '<i class="fa fa-minus"></i>', ['class'=>'btn btn-box-tool', 'data-widget'=>'collapse']];
+            $this->buttons[] = ['button', '<i class="fa fa-minus"></i>', ['class'=>'btn btn-box-tool', 'data-widget'=>'collapse', 'data-toggle'=>'tooltip', 'data-original-title'=>'свернуть/развернуть']];
         if($this->close)
-            $this->buttons[] = ['button', '<i class="fa fa-times"></i>', ['class'=>'btn btn-box-tool', 'data-widget'=>'remove']];
+            $this->buttons[] = ['button', '<i class="fa fa-times"></i>', ['class'=>'btn btn-box-tool', 'data-widget'=>'remove', 'data-toggle'=>'tooltip', 'data-original-title'=>'скрыть']];
         ob_start();
     }
 
@@ -45,13 +46,15 @@ class BoxWidget extends \yii\base\Widget
     private function boxClass(){
         $class = 'box box-'.$this->color;
         if($this->solid)
-            $class = ' box-solid';
+            $class .= ' box-solid';
+        if($this->hide)
+            $class .= ' collapsed-box';
         return $class;
     }
     private function boxHeaderClass(){
         $class = 'box-header';
         if($this->border)
-            $class = ' with-border';
+            $class .= ' with-border';
         return $class;
     }
     private function boxTools(){
@@ -59,9 +62,9 @@ class BoxWidget extends \yii\base\Widget
         if(is_array($this->buttons)){
             foreach ($this->buttons as $btn){
                 if($btn[0] == 'button'){
-                    $html .= Html::button($btn[1],$btn[2]);
+                    $html .= Html::button($btn[1],array_merge(['class'=>'btn btn-box-tool'],$btn[2]));
                 }else{
-                    $html .= Html::a($btn[1],$btn[2],$btn[3]);
+                    $html .= Html::a($btn[1],$btn[2],array_merge(['class'=>'btn btn-box-tool'],$btn[3]));
                 }
             }
         }
