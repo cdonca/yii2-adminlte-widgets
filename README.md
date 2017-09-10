@@ -53,7 +53,7 @@ full config:
     ]);
     ?>
 
-    echo 'some content';
+    <?php echo 'some content'; ?>
 
     <?php BoxWidget::end();?>
 ```
@@ -76,4 +76,12 @@ To use gii with adminLTE template, add in config:
             ]
         ],
     ....
+    ],
 ```
+this generator can create widgets for upload files and add behaviors and rules etc. in model and form. It's based on column names. So try name your column as:
+text - gen imperavi redactor widget in form
+status_id - gen status behavior in model and dropdown in form
+url - gen autogenerate js from "title" attribute
+img or image or media_url - gen behavior for upload in model and widget in form
+date or date_start or date_finish - datePicker in form
+sort - add rules for integer 1 - 99
