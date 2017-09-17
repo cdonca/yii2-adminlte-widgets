@@ -2,6 +2,7 @@
 
 namespace wokster\ltewidgets;
 use yii\bootstrap\Html;
+use yii\web\View;
 
 /**
  * This is just an example.
@@ -17,13 +18,14 @@ class BoxWidget extends \yii\base\Widget
     public $collapse = true;
     public $hide = false;
     public $close = false;
+    public $ajaxLoad = false;
     public $buttons = [];
 
     public function init()
     {
         parent::init();
         if($this->collapse)
-            $this->buttons[] = ['button', '<i class="fa fa-minus"></i>', ['class'=>'btn btn-box-tool', 'data-widget'=>'collapse', 'data-toggle'=>'tooltip', 'data-original-title'=>'свернуть/развернуть']];
+            $this->buttons[] = ['button', ($this->hide)?'<i class="fa fa-plus"></i>':'<i class="fa fa-minus"></i>', ['class'=>'btn btn-box-tool', 'data-widget'=>'collapse', 'data-toggle'=>'tooltip', 'data-original-title'=>'свернуть/развернуть']];
         if($this->close)
             $this->buttons[] = ['button', '<i class="fa fa-times"></i>', ['class'=>'btn btn-box-tool', 'data-widget'=>'remove', 'data-toggle'=>'tooltip', 'data-original-title'=>'скрыть']];
         ob_start();
@@ -31,6 +33,7 @@ class BoxWidget extends \yii\base\Widget
 
     public function run()
     {
+        $this->registerJs();
         $content = ob_get_clean();
         $html_data = Html::beginTag('div',['class'=>$this->boxClass(), 'data-widget'=>'box-widget']);
         $html_data .= Html::beginTag('div',['class'=>$this->boxHeaderClass()]);
@@ -39,6 +42,7 @@ class BoxWidget extends \yii\base\Widget
         $html_data .= Html::endTag('div');
         $html_data .= Html::tag('div',$content,['class'=>'box-body']);
         $html_data .= ($this->footer)?Html::tag('div',$this->footer,['class'=>'box-footer']):'';
+        $html_data .= ($this->ajaxLoad)?Html::tag('div','<i class="fa fa-refresh fa-spin"></i>',['class'=>'overlay','data-ajax-load-url' => $this->ajaxLoad]):'';
         $html_data .= Html::endTag('div');
         return $html_data;
     }
@@ -69,5 +73,17 @@ class BoxWidget extends \yii\base\Widget
             }
         }
         return $html;
+    }
+    private function registerJs(){
+        if($this->ajaxLoad){
+            $this->view->registerJs("
+             $.each($('[data-ajax-load-url]'),function(i,el){
+                var url = $(el).attr('data-ajax-load-url');
+                $(el).siblings('.box-body').load(url,function() {
+                  $(el).remove();
+                });
+             });
+        ",View::POS_READY,'ajaxLoad');
+        }
     }
 }

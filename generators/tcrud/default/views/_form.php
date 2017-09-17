@@ -56,7 +56,7 @@ case 'status_id':?>
 <?php
 break;
 case 'url':?>
-            <?php echo "<?="; ?> $form->field($model, 'url', ['addon' => ['prepend' => ['content' => '<i class="fa fa-globe"></i>']],'options'=>['class'=>'col-xs-12 col-md-6']])
+            <?php echo "<?="; ?> $form->field($model, 'url', ['addon' => ['prepend' => ['content' => '<i class="fa fa-globe"></i>']],'options'=>['class'=>'col-xs-12 col-md-6']])->widget(\wokster\behaviors\TranslitWidget::className())
             <?php echo " ?>\n\n"; ?>
 <?php
 break;

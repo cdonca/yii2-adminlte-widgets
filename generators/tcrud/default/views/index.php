@@ -39,6 +39,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= "?>\n\n" ?>
     <?= "<?php " ?>Pjax::begin(['id' => 'grid'])<?= "?>" ?>
 <?php if ($generator->indexWidgetType === 'grid'): ?>
+
+    
     <?= "<?= " ?>GridView::widget([
         'dataProvider' => $dataProvider,
         <?= !empty($generator->searchModelClass) ? "'filterModel' => \$searchModel,\n        'columns' => [\n" : "'columns' => [\n"; ?>

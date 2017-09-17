@@ -121,16 +121,6 @@ $rules[] = "[['status_id'], 'default', 'value'=>0]"; ?>
     return [<?= "\n            " . implode(",\n            ", $rules) . "\n        " ?>];
   }
 
-<?php if($sort):?>
-  /**
-  * @inheritdoc
-  */
-  public function setDefaultValues() {
-    $this->sort = 50;
-    return $this;
-  }
-<?php endif;?>
-
   /**
   * @inheritdoc
   */
