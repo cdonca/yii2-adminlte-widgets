@@ -35,23 +35,23 @@ foreach ($generator->getColumnNames() as $attribute) {
     echo '<div class="col-xs-3">';
 
     if($attribute == 'status') {
-        echo "    <?= ";
+        echo "\n    <?= ";
         ?>
         $form->field($model, 'status')->dropDownList($model->getStatusList(),['prompt'=>''])
     <?php
-        echo " ?>\n\n";
+        echo " ?>\n";
     }else{
-        echo "    <?= " . $generator->generateActiveSearchField($attribute) . " ?>\n\n";
+        echo "\n   <?= " . $generator->generateActiveSearchField($attribute) . " ?>\n";
     }
 
-    echo '</div>';
+    echo "</div>\n\n";
 }
 
 ?>
-    <div class="form-group col-xs-12">
+<div class="form-group col-xs-12">
         <?= "<?= " ?>Html::submitButton(<?= $generator->generateString('Search') ?>, ['class' => 'btn btn-primary']) ?>
         <?= "<?= " ?>Html::resetButton(<?= $generator->generateString('Reset') ?>, ['class' => 'btn btn-default']) ?>
-    </div>
+</div>
 
     <?= "<?php " ?>ActiveForm::end(); ?>
 
